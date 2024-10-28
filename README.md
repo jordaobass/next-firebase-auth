@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# next-firebase-auth
 
-## Getting Started
+**next-firebase-auth** é um projeto de exemplo que demonstra a implementação de autenticação com Firebase em **Next.js**, utilizando uma interface estilosa feita com **shadcn** e validação de formulários com **Zod**.
 
-First, run the development server:
+## ✨ Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- 🔒 **Autenticação com Firebase**:
+    - 📨 Login com **E-mail e Senha**
+    - 🌐 Login com **Google**
+- ✍️ **Cadastro de Novo Usuário**
+- 🔄 **Solicitação de Troca de Senha**
+- 🔑 **Página de Redefinição de Senha**
+- 🎨 Interface de usuário estilizada com **[shadcn](https://ui.shadcn.com/)**
+- ✅ Validação de formulários com **[Zod](https://zod.dev/)**
+
+
+## Pré-requisitos
+
+Para rodar este projeto, é necessário configurar o Firebase e habilitar os métodos de autenticação. Consulte a [documentação do Firebase Auth](https://firebase.google.com/docs/auth?hl=pt-br) para mais detalhes.
+
+### 🛠️ Passo a Passo para Configurar o Firebase
+
+1. Acesse o [console do Firebase](https://console.firebase.google.com/).
+2. Crie um novo projeto ou selecione um projeto existente.
+3. Vá até **Authentication** > **Método de login**.
+4. Ative os provedores de:
+    - **E-mail/Senha**
+    - **Google**
+5. Siga as instruções para configurar cada provedor.
+
+### 🔧 Configuração do Firebase no Projeto
+
+Após configurar os métodos de autenticação no console do Firebase, crie um arquivo `.env.local` na raiz do projeto com as variáveis de ambiente para conectar seu projeto ao Firebase.
+
+1. No seu projeto Firebase, acesse **Configurações do projeto** > **Configurações gerais**.
+2. Copie as credenciais de configuração do Firebase.
+3. No diretório raiz do projeto, crie um arquivo `.env.local` e adicione as variáveis:
+
+```plaintext
+NEXT_PUBLIC_FIREBASE_API_KEY=SUAS_API_KEY
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=SEU_AUTH_DOMAIN
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=SEU_PROJECT_ID
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=SEU_STORAGE_BUCKET
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=SEU_MESSAGING_SENDER_ID
+NEXT_PUBLIC_FIREBASE_APP_ID=SEU_APP_ID
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=SEU_MEASUREMENT_ID
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📝 Configuração do Firebase no Código
+Aqui está a configuração do Firebase utilizada no código do projeto:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```typescript
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+// src/lib/firebase.ts
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
-## Learn More
+const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+};
 
-To learn more about Next.js, take a look at the following resources:
+// Inicializa o Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Certifique-se de preencher o arquivo .env.local com as informações corretas do seu projeto Firebase.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ▶️ Executando o Projeto
+Para iniciar o projeto, basta executar:
 
-## Deploy on Vercel
+```typescript
+npm install
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Acesse o projeto em http://localhost:3000 para ver o exemplo de autenticação Firebase em ação.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Sinta-se à vontade para personalizar o projeto e explorar as funcionalidades de autenticação do Firebase Auth com Next.js!
