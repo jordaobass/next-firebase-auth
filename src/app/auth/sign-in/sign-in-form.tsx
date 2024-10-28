@@ -1,27 +1,25 @@
 'use client'
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { signInWithEmailAndPasswordAction } from "@/app/auth/sign-in/action";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
+import {signInWithEmailAndPasswordAction} from "@/app/auth/sign-in/action";
+import {useRouter} from "next/navigation";
+import {Button} from "@/components/ui/button";
+import {Separator} from "@/components/ui/separator";
 import githubIcon from '@/assets/svg/github-icon.svg';
-import logoIcon from '@/assets/svg/logo.svg';
+
 import Link from "next/link";
-import { AlertTriangle, Loader2 } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {AlertTriangle,  Loader2, Star} from "lucide-react";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import Image from "next/image";
-import React, {useEffect, useState, useTransition} from 'react';
-import SignUpWithGoogle from "@/app/auth/sign-up/sign-up-button-google";
-//import {useFormState} from "@/hooks/use-form-state";
+import React, {useCallback, useEffect, useState, useTransition} from 'react';
+import SignUpWithGoogle from "./sign-in-button-google";
+
 
 export const SignInForm = () => {
     const router = useRouter();
 
-    //const [errors, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
-    //const [loading, setLoading] = useState(false);
     const [success, setSucess] = useState(false);
     const [isPending, startTransition] = useTransition();
 
@@ -33,57 +31,38 @@ export const SignInForm = () => {
         const data = new FormData(form);
 
         startTransition(async () => {
-        try {
-            const result = await signInWithEmailAndPasswordAction(data);
-            setSucess(result.success);
-            if(result.success){
-                localStorage.setItem('authToken', result.token);
-            }else{
+            try {
+                const result = await signInWithEmailAndPasswordAction(data);
+                setSucess(result.success);
+                if (result.success) {
+                    localStorage.setItem('authToken', result.token);
+                } else {
 
-                setMessage(result.errors)
+                    setMessage(result.errors)
+                }
+            } catch (err) {
+                console.error("ERRO signin", err);
+                const errorMessage = (err as { message?: string }).message || "Erro ao fazer login.";
+                setMessage(errorMessage)
+
+            } finally {
             }
-        } catch (err) {
-            console.error("ERRO signin", err);
-            const errorMessage = (err as { message?: string }).message || "Erro ao fazer login.";
-            setMessage(errorMessage)
-          //  setError(errorMessage);
-        } finally {
-       //     setLoading(false);
-        }
         });
     };
 
-/*    const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
-        async (data: FormData) => {
-            const result = await signInWithEmailAndPasswordAction(data);
-
-            if (result.success) {
-                localStorage.setItem('authToken', JSON.stringify(result.token));
-                return { success: true, message: null, errors: null };
-            } else {
-                return {
-                    success: false,
-                    message: result.message,
-                    errors: result.errors
-                };
-            }
-        },
-    );*/
-
-    const handleRedirect = () => {
+    const handleRedirect = useCallback(() => {
         router.push('/'); // Redireciona para a página principal
-    };
+    }, [router]);
 
     useEffect(() => {
         if (success) {
-            router.push('/');
+            handleRedirect();
         }
     }, [success, router]);
 
-
     return (
         <div className="space-y-4">
-            <Image src={logoIcon} alt="Logo" className="size-28 w-full"/>
+            <Star className="size-28 w-full"/>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 {!success && message && (
@@ -99,23 +78,11 @@ export const SignInForm = () => {
                 <div className="space-y-1">
                     <Label htmlFor="email">E-mail</Label>
                     <Input name="email" type="email" id="email"/>
-
-               {/*     {errors?.email && (
-                        <p className="text-xs font-medium text-red-500 dark:text-red-400">
-                            {errors.email[0]}
-                        </p>
-                    )}*/}
                 </div>
 
                 <div className="space-y-1">
                     <Label htmlFor="password">Senha</Label>
                     <Input name="password" type="password" id="password"/>
-
-             {/*       {errors?.password && (
-                        <p className="text-xs font-medium text-red-500 dark:text-red-400">
-                            {errors.password[0]}
-                        </p>
-                    )}*/}
 
                     <Link
                         href="/auth/forgot-password"

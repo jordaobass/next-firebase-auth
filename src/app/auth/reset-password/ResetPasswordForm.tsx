@@ -37,15 +37,15 @@ const schema = z.object({
 
 export default function ResetPasswordForm  ()  {
 
-    const searchParams = useSearchParams(); // Obtendo os parâmetros da URL
-    const oobCode = searchParams.get("oobCode"); // Obtém o código da URL
+    const searchParams = useSearchParams();
+    const oobCode = searchParams.get("oobCode");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
 
 
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<FormDataResetPassword>({
         resolver: zodResolver(schema),
-        mode: "onChange", // Para fornecer feedback de validação em tempo real enquanto o usuário está digitando
+        mode: "onChange",
     });
 
     useEffect(() => {
@@ -61,7 +61,6 @@ export default function ResetPasswordForm  ()  {
         try {
             await ConfirmPasswordReset(oobCode as string, data.password_confirmation);
             setSuccess(true);
-            // Redirecionar ou exibir uma mensagem de sucesso
         } catch (err) {
             const error = err as { message?: string };
             setError("Erro ao redefinir a senha. Tente novamente."+ error);

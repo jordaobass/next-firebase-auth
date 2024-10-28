@@ -1,21 +1,20 @@
-// src/components/SignUpWithGoogle.js
-import { auth } from '@/lib/firebase'; // Ajuste o caminho conforme necessário
+import { auth } from '@/lib/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button'; // Ajuste conforme sua biblioteca de UI
-//import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { Button } from '@/components/ui/button';
+
 import Image from "next/image";
 import googleIcon from '@/assets/svg/google-icon.svg'
 
 
 interface SignUpWithGoogleProps {
-    onSignUpSuccess: () => void; // Define a função que será passada
+    onSignUpSuccess: () => void;
 }
 
 const SignUpWithGoogle : React.FC<SignUpWithGoogleProps> = ({ onSignUpSuccess }) => {
 
     const [error, setError] = useState('');
-   // const db = getFirestore();
+
 
     const handleGoogleSignUp = async () => {
         const provider = new GoogleAuthProvider();
@@ -27,17 +26,9 @@ const SignUpWithGoogle : React.FC<SignUpWithGoogleProps> = ({ onSignUpSuccess })
             const token = await user.getIdToken();
             localStorage.setItem('authToken', token);
 
-
-       /*     // Armazenar dados adicionais do usuário no Firestore
-            await setDoc(doc(db, 'users', user.uid), {
-                displayName: user.displayName,
-                email: user.email,
-                photoURL: user.photoURL,
-                // Adicione outros campos que você queira armazenar
-            });*/
-
             console.log('Usuário cadastrado com Google:', user);
             onSignUpSuccess();
+
         } catch (err) {
             const error = err as Error;
             setError(error.message);

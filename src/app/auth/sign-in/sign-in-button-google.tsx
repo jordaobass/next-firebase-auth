@@ -5,7 +5,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Image from "next/image";
-import githubIcon from "@/assets/svg/github-icon.svg"; // ajuste conforme sua biblioteca de UI
+import googleIcon from "@/assets/svg/google-icon.svg"; // ajuste conforme sua biblioteca de UI
 
 interface SignInWithGoogleProps {
     onSignUpSuccess: () => void; // Define a função que será passada
@@ -36,8 +36,8 @@ const SignInWithGoogle : React.FC<SignInWithGoogleProps> = ({ onSignUpSuccess })
         <div>
             {error && <p className="text-red-500">{error}</p>}
             <Button onClick={handleGoogleSignIn} className="w-full" variant="outline">
-                <Image src={githubIcon} alt="" className="mr-2 size-4 dark:invert"/>
-                Cadastrar com Google
+                <Image src={googleIcon} alt="" className="mr-2 size-4 dark:invert"/>
+                Entrar com Google
             </Button>
 
 

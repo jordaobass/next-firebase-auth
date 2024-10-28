@@ -26,7 +26,7 @@ export const ForgotPasswordForm = () => {
 
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<ResetPasswordFormData>({
         resolver: zodResolver(schema),
-        mode: "onChange", // Para fornecer feedback de validação em tempo real enquanto o usuário está digitando
+        mode: "onChange",
     });
 
     const [error, setError] = useState('');

@@ -18,9 +18,6 @@ export default function HeaderAuth() {
     const {user, loading, logout} = useAuth();
 
     useEffect(() => {
-        console.log("1 useEffect");
-        console.log("LOADING:" + loading);
-        console.log("user:" + user);
         if (!loading && !user) {
             redirect('/auth/sign-up');
         }
@@ -61,8 +58,6 @@ export default function HeaderAuth() {
                             </Avatar>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            {/*<DropdownMenuItem>My Account</DropdownMenuItem>
-                        <DropdownMenuItem>Settings</DropdownMenuItem>*/}
                             <DropdownMenuSeparator/>
                             <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                         </DropdownMenuContent>

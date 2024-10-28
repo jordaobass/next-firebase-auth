@@ -1,11 +1,9 @@
-// src/components/AlertComponent.tsx
-
 import {Alert, AlertTitle, AlertDescription} from "@/components/ui/alert"; // Ajuste o caminho conforme necessário
-import {AlertTriangle} from "lucide-react"; // Certifique-se de que o ícone está disponível
+import {AlertTriangle} from "lucide-react";
 
 interface AlertComponentProps {
-    title: string; // O título do alerta
-    description: string; // A descrição do alerta
+    title: string;
+    description: string;
 
 }
 

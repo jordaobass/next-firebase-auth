@@ -13,5 +13,4 @@ export const ConfirmPasswordReset = async (oobCode: string, newPassword: string,
         const error = err as { message?: string };
         return {success: false, message: "nao foi possivel confirmar a troca de senha", errors: error};
     }
-
 }

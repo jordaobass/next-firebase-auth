@@ -9,14 +9,13 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
 
-//import googleIcon from '@/assets/svg/google-icon.svg'
 import {zodResolver} from "@hookform/resolvers/zod";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {z} from "zod";
 import {AlertTriangle, Loader2} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {signInWithEmailAndPasswordAction} from "@/app/auth/sign-up/action";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import SignUpWithGoogle from "@/app/auth/sign-up/sign-up-button-google";
 
@@ -52,7 +51,7 @@ export default function SignUpForm() {
 
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<FormData>({
         resolver: zodResolver(schema),
-        mode: "onChange", // Para fornecer feedback de validação em tempo real enquanto o usuário está digitando
+        mode: "onChange",
     });
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -67,9 +66,9 @@ export default function SignUpForm() {
         }
     };
 
-    const handleRedirect = () => {
-        router.push('/home'); // Redireciona para a página principal
-    };
+    const handleRedirect = useCallback(() => {
+        router.push('/');
+    }, [router]);
 
 
     useEffect(() => {
@@ -102,13 +101,6 @@ export default function SignUpForm() {
                         </p>
                     )}
 
-                    {/*
-                                 <Input name="name" id="name"/>
-                           {errors?.name && (
-                        <p className="text-xs font-medium text-red-500 dark:text-red-400">
-                            {errors.name[0]}
-                        </p>
-                    )}*/}
                 </div>
 
                 <div className="space-y-1">
@@ -120,7 +112,6 @@ export default function SignUpForm() {
                             {errors.email.message}
                         </p>
                     )}
-
 
                 </div>
 
@@ -149,16 +140,6 @@ export default function SignUpForm() {
                     )}
                 </div>
 
-                {/*
-                <Button className="w-full" type="submit" disabled={isPending}>
-                    {isPending ? (
-                        <Loader2 className="size-4 animate-spin"/>
-                    ) : (
-                        'Cadastrar'
-                    )}
-                </Button>
-                */}
-
                 <Button className="w-full" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? (
                         <Loader2 className="size-4 animate-spin"/>
@@ -173,15 +154,7 @@ export default function SignUpForm() {
 
                 <Separator/>
 
-                {/*       <Button type="submit" className="w-full" variant="outline">
-                    <Image src={githubIcon} alt="" className="mr-2 size-4 dark:invert"/>
-                    Cadastrar com GitHub
-                </Button>*/}
-
-                {/*     <SignInWithGoogle/>*/}
-
             </form>
-
 
             <SignUpWithGoogle onSignUpSuccess={handleRedirect}/>
 
